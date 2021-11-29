@@ -1,7 +1,8 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from rfft2d import Rfft2d
+
+from .rfft2d import Rfft2d
 
 EPS = 1e-10
 

@@ -1,11 +1,14 @@
 # Deeploss function from Zhang et al. (2018)
+from collections import namedtuple
+
+import numpy as np
 
 import torch
 import torchvision
 import torch.nn as nn
-import numpy as np
+
 from torchvision import models
-from collections import namedtuple
+
 
 class NetLinLayer(nn.Module):
     ''' A single linear layer which does a 1x1 conv '''

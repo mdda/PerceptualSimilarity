@@ -1,16 +1,17 @@
-import torch
-import torch.nn as nn
 import os
 from collections import OrderedDict
 
-from color_wrapper import ColorWrapper, GreyscaleWrapper
-from shift_wrapper import ShiftWrapper
-from watson import WatsonDistance
-from watson_fft import WatsonDistanceFft
-from watson_vgg import WatsonDistanceVgg
-from robust_loss import RobustLoss
-from deep_loss import PNetLin
-from ssim import SSIM
+import torch
+import torch.nn as nn
+
+from .color_wrapper import ColorWrapper, GreyscaleWrapper
+from .shift_wrapper import ShiftWrapper
+from .watson import WatsonDistance
+from .watson_fft import WatsonDistanceFft
+from .watson_vgg import WatsonDistanceVgg
+from .robust_loss import RobustLoss
+from .deep_loss import PNetLin
+from .ssim import SSIM
 
 
 class LossProvider():

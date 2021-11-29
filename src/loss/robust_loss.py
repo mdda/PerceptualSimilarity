@@ -1,6 +1,9 @@
-from robust_loss_pytorch.robust_loss_pytorch import AdaptiveImageLossFunction
 import torch
 import torch.nn as nn
+
+#from .robust_loss_pytorch.robust_loss_pytorch import AdaptiveImageLossFunction
+# imported only if used...
+
 
 class RobustLoss(nn.Module):
     """
@@ -22,6 +25,13 @@ class RobustLoss(nn.Module):
         """
         super().__init__()
         self.reduction = reduction
+
+        try:
+          from .robust_loss_pytorch.robust_loss_pytorch import AdaptiveImageLossFunction
+        except :
+          print("Need to install mpmath for robust_loss_pytorch")
+          pass
+
         
         # module to perform feature extraction
         self.add_module('robust_loss', AdaptiveImageLossFunction(image_size=image_size,

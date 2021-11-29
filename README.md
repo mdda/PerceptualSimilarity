@@ -15,20 +15,35 @@ This repository contains the similarity metrics designed and evaluated in the [p
 > - Added multiple perviously not included dependencies.
 > - Added multiple shell-scripts to reproduce all experiments more easily. Jupyter notebook is no longer required to reproduce the paper \o/
 
+> **Note2**: This is a fork of the original at (https://github.com/SteffenCzolbe/PerceptualSimilarity)
+> 
+> Key benefits:
+> - Works in PyTorch 1.9 (with the new fft packages)
+> - Code sample actually works
+
+
+
 # Use the similarity metrics
 
 The presented similarity metrics can be included in your projects by importing the `LossProvider`. It makes all pre-trained similarity metrics accessible. The example below shows how to build the `Watson-DFT` metric, and loads the weights tuned on the 2AFC dataset. The input for all loss functions is expected to be normalized to a 0..1 interval.
 
 ```python
-from loss.loss_provider import LossProvider
+! git clone https://github.com/mdda/PerceptualSimilarity.git # Updated version
 
-provider = LossProvider()
-loss_function = provider.get_loss_function('Watson-DFT', colorspace='RGB', pretrained=True, reduction='sum')
+REPO_LOC="./PerceptualSimilarity/src"
+if REPO_LOC not in sys.path:
+  sys.path.insert(0, REPO_LOC)
+  print(f"Inserted {REPO_LOC} into search path")
+
+import loss.loss_provider as perceptual_similiarity
+provider = perceptual_similiarity.LossProvider()
+
+perc_sim_loss = provider.get_loss_function('Watson-DFT', colorspace='RGB', pretrained=True, reduction='sum')
 
 import torch
 img0 = torch.zeros(1,3,64,64)
 img1 = torch.zeros(1,3,64,64)
-loss = loss_function(img0, img1)
+loss = perc_sim_loss(img0, img1)
 ```
 
 Parameters:

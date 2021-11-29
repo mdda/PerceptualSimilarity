@@ -1,7 +1,8 @@
+import numpy as np
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import numpy as np
 
 class Rfft2d(nn.Module):
     """
@@ -49,8 +50,11 @@ class Rfft2d(nn.Module):
         (N, _, k) = x.shape
         x = x.view(-1,self.blocksize,self.blocksize,k).permute(0,3,1,2)
         # now shape (N, #k, b, b)
+
         # perform DCT
-        coeff = torch.rfft(x, signal_ndim=2)
+        #coeff = torch.rfft(x, signal_ndim=2)
+        # See https://github.com/SteffenCzolbe/PerceptualSimilarity/issues/18
+        coeff = torch.view_as_real(torch.fft.rfft2(x))
         
         return coeff / self.blocksize**2
     
