@@ -2,6 +2,9 @@
 
 Steffen Czolbe, Oswin Krause, Igemar Cox, Christian Igel - NeurIPS 2020
 
+**The Code in this Fork is updated**
+
+
 [[Paper]](https://arxiv.org/abs/2006.15057) [[Video]](https://youtu.be/qPmHQbR4DeI) [[Poster]](img/WatsonPoster.pdf)
 
 [![Video](https://img.youtube.com/vi/qPmHQbR4DeI/hqdefault.jpg)](https://youtu.be/qPmHQbR4DeI)
@@ -38,12 +41,16 @@ if REPO_LOC not in sys.path:
 import loss.loss_provider as perceptual_similiarity
 provider = perceptual_similiarity.LossProvider()
 
-perc_sim_loss = provider.get_loss_function('Watson-DFT', colorspace='RGB', pretrained=True, reduction='sum')
+perc_sim_loss = provider.get_loss_function('Watson-DFT', colorspace='RGB', 
+                                            pretrained=True, reduction='sum')
 
 import torch
+
 img0 = torch.zeros(1,3,64,64)
 img1 = torch.zeros(1,3,64,64)
-loss = perc_sim_loss(img0, img1)
+#img1 = torch.rand(1,3,64,64)  # Can try this too!
+
+loss = perc_sim_loss(img0, img1)/(64*64) # Rescales loss into the 0-10ish range
 ```
 
 Parameters:
