@@ -26,15 +26,22 @@ class WatsonDistanceFft(nn.Module):
         super().__init__()
         self.trainable = trainable
         
-        # input mapping
-        blocksize = torch.as_tensor(blocksize)
+        ## input mapping
+        #blocksize = torch.as_tensor(blocksize)
+        # 
+        ## module to perform 2D blockwise rFFT
+        #self.add_module('fft', Rfft2d(blocksize=blocksize.item(), interleaving=False))
+        # 
+        ## parameters
+        #self.weight_size = (blocksize, blocksize // 2 + 1)
+        #self.blocksize = nn.Parameter(blocksize, requires_grad=False)
         
-        # module to perform 2D blockwise rFFT
-        self.add_module('fft', Rfft2d(blocksize=blocksize.item(), interleaving=False))
-    
+        self.add_module('fft', Rfft2d(blocksize=blocksize, interleaving=False))
+        
         # parameters
         self.weight_size = (blocksize, blocksize // 2 + 1)
-        self.blocksize = nn.Parameter(blocksize, requires_grad=False)
+        self.blocksize = nn.Parameter(torch.as_tensor(blocksize), requires_grad=False) # Not really needed (but for pretrained models)
+        
         # init with uniform QM
         self.t_tild = nn.Parameter(torch.zeros(self.weight_size), requires_grad=trainable)
         self.alpha = nn.Parameter(torch.tensor(0.1), requires_grad=trainable) # luminance masking
