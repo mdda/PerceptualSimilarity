@@ -60,7 +60,7 @@ class Rfft2d(nn.Module):
     
     def inverse(self, coeff, output_shape):
         """
-        performs 2D blockwhise inverse rFFT
+        performs 2D blockwise inverse rFFT
         
         Parameters:
         output_shape: Tuple, dimensions of the outpus sample

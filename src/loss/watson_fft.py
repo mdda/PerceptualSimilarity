@@ -26,21 +26,24 @@ class WatsonDistanceFft(nn.Module):
         super().__init__()
         self.trainable = trainable
         
-        ## input mapping
-        #blocksize = torch.as_tensor(blocksize)
-        # 
-        ## module to perform 2D blockwise rFFT
-        #self.add_module('fft', Rfft2d(blocksize=blocksize.item(), interleaving=False))
-        # 
-        ## parameters
-        #self.weight_size = (blocksize, blocksize // 2 + 1)
-        #self.blocksize = nn.Parameter(blocksize, requires_grad=False)
+        if True:
+          ## input mapping
+          blocksize = torch.as_tensor(blocksize)
+           
+          # module to perform 2D blockwise rFFT
+          self.add_module('fft', Rfft2d(blocksize=blocksize.item(), interleaving=False))
+           
+          # parameters
+          #self.weight_size = (blocksize, blocksize // 2 + 1)
+          self.weight_size = (blocksize, torch.div(blocksize, 2, rounding_mode='trunc') + 1)
+          self.blocksize = nn.Parameter(blocksize, requires_grad=False)
+
+        if False:
+          # parameters
+          self.weight_size = (blocksize, blocksize // 2 + 1)
+          self.blocksize = nn.Parameter(torch.as_tensor(blocksize), requires_grad=False) # Not really needed (but for pretrained models)
         
-        self.add_module('fft', Rfft2d(blocksize=blocksize, interleaving=False))
-        
-        # parameters
-        self.weight_size = (blocksize, blocksize // 2 + 1)
-        self.blocksize = nn.Parameter(torch.as_tensor(blocksize), requires_grad=False) # Not really needed (but for pretrained models)
+          self.add_module('fft', Rfft2d(blocksize=blocksize, interleaving=False))
         
         # init with uniform QM
         self.t_tild = nn.Parameter(torch.zeros(self.weight_size), requires_grad=trainable)
