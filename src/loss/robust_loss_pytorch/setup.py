@@ -12,6 +12,7 @@ def read(filename):
     with io.open(filename, mode="r", encoding='utf-8') as fd:
         return re.sub(text_type(r':[a-z]+:`~?(.*?)`'), text_type(r'``\1``'), fd.read())
 
+#pip install -e git://github.com/jbojar/torch-dct.git@pytorch-1.9.0-compatibility#egg=torch-dct
 
 requirements = [
     'torch>=1.3.1',

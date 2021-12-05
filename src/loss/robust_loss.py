@@ -28,7 +28,8 @@ class RobustLoss(nn.Module):
 
         try:
           from .robust_loss_pytorch.robust_loss_pytorch import AdaptiveImageLossFunction
-        except :
+        except Exception as e:
+          print(e)  # No module named 'torch_dct'
           print("Need to install mpmath for robust_loss_pytorch")
           pass
 
